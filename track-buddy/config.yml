@@ -21,8 +21,8 @@ track channels:
 
 # Buddy Groups configuration
 buddy groups:
-   prefix: trackstudy-test7-buddies
+   prefix: trackstudy-buddies
    start message: >
-      Hey dear #codeathome Team, this is just a test, but of you are seeing this, it means it's working!
+      this is just a test, but of you are seeing this, it means it's working!
    members max: 3
    members min: 1
