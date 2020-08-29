@@ -1,0 +1,28 @@
+# Input File
+csv: C:\Users\andre\Downloads\responses-fake.csv
+separator: ;
+
+# Input File Information
+columns:
+   - name: name
+   - last name: last name
+   - email: email
+   - track1: track1
+   - track2: track2
+   - track3: track3
+   - track4: track4
+
+# Track Channels Information
+track channels:
+   AI: G0194S0P81M
+   WebDev: G019KQKRGQK
+   UX: C019KQJ7NV9
+   DataSc: C019KJEK79Q
+
+# Buddy Groups configuration
+buddy groups:
+   prefix: trackstudy-test7-buddies
+   start message: >
+      Hey dear #codeathome Team, this is just a test, but of you are seeing this, it means it's working!
+   members max: 3
+   members min: 1
