@@ -9,4 +9,4 @@ pip install -r requeriments.txt
 ```
 
 ## Tools List
-- [Track Buddy](../blob/master/track-buddy/)
+- [Track Buddy](./blob/master/track-buddy/)
