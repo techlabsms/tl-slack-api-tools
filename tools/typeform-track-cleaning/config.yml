@@ -1,0 +1,39 @@
+
+source:
+  csv: C:\Users\andre\Downloads\responses.csv
+  separator: ','
+  columns:
+    - name: "What is your first name?"
+    - last name: "What is your last name?"
+    - email: "Under which *email* can we reach out to you during the bootcamp?"
+    - track: "In our #codeathome Bootcamp, you can choose between four tracks: Data Science, Web Development, Artificial Intelligence, and UX Design. *Which track are you interested in and how will this track help your personal or professional development?*"
+
+output:
+  csv: C:\Users\andre\Downloads\responses-out.csv
+
+tracks:
+  AI:
+    - AI
+    - Artificial Intelligence
+    - A Intelligence
+    - Artificial I
+  WebDev:
+    - webdev
+    - Web Development
+    - Frontend
+    - Backend
+    - Web
+    - web dev
+  UX:
+    - ux
+    - user experience
+    - uxperience
+    - user x
+    - UX Design
+  DataSc:
+    - Data Science
+    - dsc
+    - Data
+
+fuzzy:
+  certainty ratio: 91
