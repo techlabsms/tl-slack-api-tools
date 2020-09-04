@@ -1,0 +1,24 @@
+# Input Files
+slack user list:
+    csv: 'C:\Users\andre\Desktop\the_real_thing\slack-techlabs-community-members.csv'
+    separator: ','
+    columns:
+        - email: email
+        - id: userid
+
+typeform:
+    csv: C:\Users\andre\Desktop\the_real_thing\responses-out.csv
+    separator: ';'
+    columns:
+        - email: email
+        - name: name
+        - last name: last name
+        - track1: track1
+        - track2: track2
+        - track3: track3
+        - track4: track4
+
+# Output File
+output file:
+    csv: C:\Users\andre\Desktop\the_real_thing\for_buddy.csv
+    separator: ';'
