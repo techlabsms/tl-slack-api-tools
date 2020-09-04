@@ -1,6 +1,6 @@
 # Input File
-csv: C:\Users\andre\Downloads\responses-fake.csv
-separator: ;
+csv: C:\Users\andre\Desktop\the_real_thing\for_buddy.csv
+separator: ';'
 
 # Input File Information
 columns:
@@ -11,18 +11,64 @@ columns:
    - track2: track2
    - track3: track3
    - track4: track4
+   - ID: id
 
 # Track Channels Information
 track channels:
-   AI: G0194S0P81M
-   WebDev: G019KQKRGQK
-   UX: C019KQJ7NV9
-   DataSc: C019KJEK79Q
+   AI: G01AT2ZNCKA
+   WebDev: G01A37NR37U
+   UX: G01AT30SYMN
+   DataSc: G01A9D49RNG
 
 # Buddy Groups configuration
 buddy groups:
    prefix: trackstudy-buddies
    start message: >
-      this is just a test, but of you are seeing this, it means it's working!
-   members max: 3
-   members min: 1
+      +++ *:wave::skin-tone-3: Welcome to your TrackStudy-Buddy Group :wave::skin-tone-3:* +++
+
+
+      Great to see all of you here! Let me briefly introduce you to each other: :woman-with-bunny-ears-partying: You are each other's Study Buddies! :woman-with-bunny-ears-partying:
+
+
+      *:hearts: Here's what you already have in common:*
+
+      - You're all taking the same track :tlfav:
+
+      - You will probably run into the same challenges and experience similar Aha-moments you want to share with your TrackStudy-Buddies :bulb:
+
+      - You are all super excited to be part of our global TechLabs community and get to know each other :earth_americas:
+
+
+      *:tada: We highly encourage you to meet remotely and on a regular basis. Here are some ideas:*
+
+      - Find a time and date to play https://skribbl.io togehter :female-artist::skin-tone-4:
+
+      - Let your group know whenever you're working on your track, to motivate each other and exchange ideas or clarify questions while your learning :couple:
+
+      - Set up "Getting stuff done" calls - Block 2 hours in your calendar, make a quick group call at the beginning, state goals for the next 2 hours, achieve them and make a group call again at the end of the time slot to share your progress :mega:
+
+      - Post any sort of questions, ideas, aha-moments or fun facts into the channel and connect :earth_americas:
+
+      - Meet up for virtual coffee dates :coffee:️
+
+      - Use Polly (slack add-in tool) or a doodle to find a date and time that works for everyone :alarm_clock:
+
+
+      *:fast_forward: TO BEGIN WITH: Start a quick introduction round!*
+
+      - Where are you from?
+
+      - What are you currently working on (job, studies, projects, ideas...)
+
+      - What is you biggest learning from the last week (not necessarily bootcamp related :upside_down_face:)
+
+      - 1 fun fact about you
+
+
+      Enjoy and please shoot a message to *Valentine Poth* or *Julia Kirsch* if you have any further questions or issues regarding the buddy program :confetti_ball:
+   members max: 5
+   members min: 3
+
+output file:
+    csv: C:\Users\andre\Desktop\the_real_thing\buddy_report.csv
+    separator: ';'

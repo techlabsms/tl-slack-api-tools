@@ -6,7 +6,7 @@ composed by techies of the same (main) track
 """
 
 import sys
-
+import time
 import logging
 import pandas as pd
 
@@ -137,9 +137,19 @@ class SlackClient(WebClient):
         Returns:
             list: channel list
         """
-        self.channels = self.conversations_list(types="public_channel, private_channel")['channels']
+        public_channels = self.conversations_list(types="public_channel")['channels']
+        private_channels = self.conversations_list(types="private_channel")['channels']
+        self.channels = private_channels + public_channels
         logging.info("Channels found = {}".format(len(self.channels)))
         return self.channels
+
+    def check_user(self, user_id):
+        try:
+            response = self.users_info(user=user_id)
+            return 0
+        except errors.SlackApiError:
+            return 1
+
 
     def add_slack_id_to_df(self, data_frame, email_column):
         """
@@ -174,7 +184,7 @@ if __name__ == "__main__":
     # Configure the logger
     logging.basicConfig(format='%(levelname)s : %(module)s : %(funcName)s >> %(message)s\n',
                         # level=logging.DEBUG)
-                        # level=logging.INFO
+                        level=logging.INFO
                         )
     # Read the token (first Argument)
     if len(sys.argv) >= 2:
@@ -186,7 +196,7 @@ if __name__ == "__main__":
 
     # import the configuration File
     actual_folder = os.path.dirname(os.path.abspath(__file__))
-    with open(actual_folder + "/config.yml") as ymlfile:
+    with open(actual_folder + "/config.yml", encoding='utf-8') as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
     # Intro
@@ -205,7 +215,7 @@ if __name__ == "__main__":
     df = df[columns]
 
     # Fill Slack User IDS using the Email column
-    df = client.add_slack_id_to_df(df, 'email')
+    #df = client.add_slack_id_to_df(df, 'email')
 
     # Check Slack API
     # Channel Check
@@ -222,23 +232,21 @@ if __name__ == "__main__":
                             " check the ID and make sure that the Bot is part of the Channel".format(key, val))
     logging.info("Channel IDs are valid!")
     # Users Check
-    logging.info("Checking User IDs")
-    client.update_users()
-    user_id_list = []
-    for user in client.users:
-        user_id_list.append(str(user['id']))
-    for row in range(0, len(df)):
-        user_id = df['ID'][row]
-        user_email = df['email'][row]
-        if user_id in user_id_list:
-            logging.debug("User {} with ID {} exist in Workspace".format(user_email, user_id))
-        else:
-            raise Exception("User {} with ID {} cannot be found in the workspace".format(user_email, user_id))
-    logging.info("User IDs are valid!")
+    if query_yes_no("Check users IDs?", default=None):
+        logging.info("Checking User IDs")
+        for row in range(0, len(df)):
+            user_id = df['ID'][row]
+            user_email = df['email'][row]
+            if not client.check_user(user_id):
+                logging.debug("User {} with ID {} exist in Workspace".format(user_email, user_id))
+            else:
+                raise Exception("User {} with ID {} cannot be found in the workspace".format(user_email, user_id))
+        logging.info("User IDs are valid!")
 
     # Add the Users to the Track Channel
+    print(df)
     track_comlumns = ['track1', 'track2', 'track3', 'track4']
-    if query_yes_no("Should I Add the Users to the respective track channels?"):
+    if query_yes_no("Should I Add the Users to the respective track channels?", default=None):
         for row in range(0, len(df)):
             for track_comlumn in track_comlumns:
                 if str(df[track_comlumn][row]) != 'nan':
@@ -257,6 +265,7 @@ if __name__ == "__main__":
                                                                                                       user_id,
                                                                                                       user_track,
                                                                                                       channel_id))
+            time.sleep(0.5)
 
     # Create Data frames for each track
     tracks_dfs = dict()
@@ -337,8 +346,11 @@ if __name__ == "__main__":
     print()
     print("and will post the following message:\n{}".format(cfg['buddy groups']['start message']))
 
-    if query_yes_no("Should I Proceed?"):
+
+    time.sleep(10)
+    if query_yes_no("Should I Proceed?", default=None):
         for buddy_group in buddy_groups:
+
             # Create Channel
             try:
                 response = client.conversations_create(name=buddy_group.name, is_private=True)
@@ -382,5 +394,21 @@ if __name__ == "__main__":
             except errors.SlackApiError as e:
                 # You will get a SlackApiError if "ok" is False
                 assert e.response["error"]  # str like 'invalid_auth', 'channel_not_found'
+
+            query_yes_no('Press to continue')
     else:
         logging.warning("No Studdy Buddy Groups were created...")
+
+    # Save Report
+    nr = 0
+    buddy_df = pd.DataFrame(columns=['name', 'id', 'size'])
+    for buddy_group in buddy_groups:
+        new_row = {'name': buddy_group.name,
+                   'id': buddy_group.slack_id,
+                   'size': buddy_group.size}
+        buddy_df = buddy_df.append(new_row, ignore_index=True)
+        nr += 1
+    print(buddy_df)
+
+    logging.info('Saving a report to {}'.format(cfg['output file']['csv']))
+    buddy_df.to_csv(cfg['output file']['csv'], sep=cfg['output file']['separator'])
