@@ -133,3 +133,4 @@ dmypy.json
 
 # Visual Basic 
 .vs/
+.vscode/
