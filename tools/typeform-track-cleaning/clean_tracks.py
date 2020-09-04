@@ -10,7 +10,6 @@ import pyfiglet
 __author__ = "Andres David Vega Botero"
 __email__ = "andresvegabotero@gmail.com"
 
-
 def query_tracks(question):
     """Ask for a track question via input() and return their answer.
 
@@ -114,7 +113,7 @@ if __name__ == "__main__":
     terminal_intro("Track Cleaning")
 
     # Import CSV and Change the columns according to the cfg File
-    df = pd.read_csv(cfg['source']['csv'], sep=cfg['source']['separator'])
+    df = pd.read_csv(cfg['source']['csv'], sep=cfg['source']['separator'],encoding = "ISO-8859-1")
     columns = []
     for arg in cfg['source']['columns']:
         for key, val in arg.items():
@@ -163,4 +162,4 @@ if __name__ == "__main__":
 
     # Write to the output csv
     logging.info('Saving the result to {}'.format(cfg['output']['csv']))
-    df.to_csv(cfg['output']['csv'])
+    df.to_csv(cfg['output']['csv'], cfg['output']['separator'])
